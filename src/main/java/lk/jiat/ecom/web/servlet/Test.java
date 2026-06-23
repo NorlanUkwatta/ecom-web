@@ -5,14 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.jiat.ecom.user.dto.UserDTO;
 import lk.jiat.ecom.user.remote.TestRemote;
-import lk.jiat.ecom.user.remote.UserRemote;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/test")
 public class Test extends HttpServlet {
@@ -36,8 +32,9 @@ public class Test extends HttpServlet {
             InitialContext ic = new InitialContext();
             TestRemote tc = (TestRemote)
                     ic.lookup("java:global/ecom-user-1.0/TestSessionBean");
-            tc.test();
-        }catch (Exception e){
+            String test = tc.test();
+            resp.getWriter().write(test);
+        } catch (Exception e) {
             throw new ServletException(e);
         }
 
