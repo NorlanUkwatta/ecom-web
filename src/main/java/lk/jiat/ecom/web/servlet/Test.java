@@ -1,20 +1,25 @@
 package lk.jiat.ecom.web.servlet;
 
-import jakarta.ejb.EJB;
+import jakarta.inject.Inject;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lk.jiat.ecom.user.remote.TestRemote;
 
 import java.io.IOException;
 
-@WebServlet(value = "/test",loadOnStartup = 1)
+@WebServlet(value = "/test", loadOnStartup = 1)
 public class Test extends HttpServlet {
+//
+//    @EJB(lookup = "java:global/ecom-user-1.0/TestNewSessionBean") //J2EE 5+
+//    private TestRemote testRemote;
+//
+//    @EJB
+//    private AppSetting appSetting;
 
-    @EJB //J2EE 5+
-    private TestRemote testRemote;
+    @Inject
+    private MyApp myApp;
 
     @Override
     public void init() throws ServletException {
@@ -23,7 +28,7 @@ public class Test extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.getWriter().write("Ecom web module test");
+        resp.getWriter().write("Ecom web module test<br>");
 
 //        try {
         //J2EE 1+
@@ -48,7 +53,10 @@ public class Test extends HttpServlet {
 //            throw new ServletException(e);
 //        }
 
-        testRemote.test();
+//        resp.getWriter().write("App Name: " + appSetting.getName());
+        req.getSession();
+        myApp.doSomething();
+
 
     }
 }
